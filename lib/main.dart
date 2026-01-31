@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:news_app/provider/favorites_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:news_app/views/splash_view.dart';
@@ -24,6 +25,7 @@ class NewsApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NewsProvider()),
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocalizationProvider()),
         ChangeNotifierProvider(create: (_) => NavbarProvider()),

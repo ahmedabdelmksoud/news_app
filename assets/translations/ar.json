@@ -66,6 +66,7 @@
   "Mark as Preparing": "تحديد كـ قيد التحضير",
   "reordered successfully": "تمت إعادة الطلب بنجاح",
   "Order cancelled successfully": "تم إلغاء الطلب بنجاح",
-  "Order status updated to Preparing": "تم تحديث حالة الطلب إلى قيد التحضير"
+  "Order status updated to Preparing": "تم تحديث حالة الطلب إلى قيد التحضير",
+  "favorite": "مفضل"
   
 }

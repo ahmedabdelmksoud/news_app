@@ -61,8 +61,15 @@ class _FavoriteNewsViewState extends State<FavoriteNewsView> {
               return FavoriteNewsCard(
                 article: article,
                 onRemove: () async {
-                  if (article.url != null && article.url!.isNotEmpty) {
+                  final confirm = await _confirmRemove(context);
+                  if (confirm &&
+                      article.url != null &&
+                      article.url!.isNotEmpty) {
                     await _firebaseServices.removeFavoriteNews(article.url!);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Removed from favorites')),
+                    );
                   }
                 },
               );
@@ -73,6 +80,7 @@ class _FavoriteNewsViewState extends State<FavoriteNewsView> {
     );
   }
 
+  // ================= EMPTY =================
   Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
@@ -96,6 +104,29 @@ class _FavoriteNewsViewState extends State<FavoriteNewsView> {
         ],
       ),
     );
+  }
+
+  // ================= DIALOG =================
+  Future<bool> _confirmRemove(BuildContext context) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Remove from favorites'),
+            content: const Text('Are you sure you want to remove this news?'),
+
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Remove'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }
 
@@ -140,9 +171,8 @@ class FavoriteNewsCard extends StatelessWidget {
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
                     ),
                     child: Image.network(
                       article.image!,
@@ -154,8 +184,9 @@ class FavoriteNewsCard extends StatelessWidget {
                   Positioned(
                     top: 8,
                     right: 8,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: onRemove,
+                      borderRadius: BorderRadius.circular(20),
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: const BoxDecoration(
@@ -193,6 +224,7 @@ class FavoriteNewsCard extends StatelessWidget {
                       article.subtitle!,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
                       ),

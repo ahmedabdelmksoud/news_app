@@ -66,5 +66,7 @@
   "Mark as Preparing": "Mark as Preparing",
   "reordered successfully": "reordered successfully",
   "Order cancelled successfully": "Order cancelled successfully",
-  "Order status updated to Preparing": "Order status updated to Preparing"
+  "Order status updated to Preparing": "Order status updated to Preparing",
+  "favorite": "Favorite"
+  
 }
